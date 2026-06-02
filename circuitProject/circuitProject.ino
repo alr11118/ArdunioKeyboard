@@ -9,7 +9,7 @@ const String colsS[] = {"Red", "Blue", "White"};
 
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("Version 1");
+  lcd.print("Version 2");
 
   for (int r = 0; r < 3; r++) {
     pinMode(rows[r], OUTPUT);
@@ -51,15 +51,4 @@ void loop() {
     // Deactivate row
     digitalWrite(rows[r], HIGH);
   }
-}
-
-void clearScreen() {
-  for(int i = 0; i < 16; i ++) {
-      for(int j = 0; j < 2; j++){
-        lcd.setCursor(i, j);
-        lcd.print(" ");
-      }
-    }
-  // set the cursor to column 0, line 0
-  lcd.setCursor(0, 0);
 }
