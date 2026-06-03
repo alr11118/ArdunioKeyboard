@@ -3,13 +3,13 @@
 LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
 
 const int rows[] = {2, 3, 4};
-const String rowsS[] = {"Yellow", "Blue", "Red"};
+const String rowsS[] = {"2", "0", "1"};
 const int cols[] = {5, 6, 7};
-const String colsS[] = {"Red", "Blue", "White"};
+const String colsS[] = {"2", "0", "1"};
 
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("Version 2");
+  lcd.print("Version 4");
 
   for (int r = 0; r < 3; r++) {
     pinMode(rows[r], OUTPUT);
@@ -40,9 +40,9 @@ void loop() {
 
         // LCD Print
         lcd.clear();
-        lcd.print(rowsS[r]);
+        lcd.print("Row: " + rowsS[r]);
         lcd.setCursor(0, 1);
-        lcd.print(colsS[c]);
+        lcd.print("Colunm: " + colsS[c]);
 
         delay(5000); // slow down output
       }
