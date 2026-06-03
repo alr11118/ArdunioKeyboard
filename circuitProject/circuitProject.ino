@@ -28,7 +28,7 @@ void loop() {
 
     // Activate one row
     digitalWrite(rows[r], LOW);
-    delay(5); // allow signal to settle
+    delay(1); // allow signal to settle
 
     // Check every column
     for (int c = 0; c < 3; c++) {
@@ -44,7 +44,7 @@ void loop() {
         lcd.setCursor(0, 1);
         lcd.print("Colunm: " + colsS[c]);
 
-        delay(5000); // slow down output
+        delay(100); // slow down output
       }
     }
 
