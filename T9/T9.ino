@@ -4,10 +4,10 @@
 LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
 
 // 3x3 keypad wiring (matrix)
-const int rows[] = {2, 3, 4};   // row pins (outputs)
-const int cols[] = {5, 6, 7};   // column pins (inputs)
+const int rows[] = {3, 4, 2};   // row pins (outputs)
+const int cols[] = {6, 7, 5};   // column pins (inputs)
 
-// T9 LETTER MAP
+// T9 LETTERS
 // Each key (0–8) has a "string" of possible letters
 const char* keys[9] = {
   "ABC",   // key 0 (row 0 col 0)
@@ -18,10 +18,10 @@ const char* keys[9] = {
   "PQRS",  // key 5
   "TUV",   // key 6
   "WXYZ",  // key 7
-  " "      // key 8 (space)
+  "_"      // key 8 (space)
 };
 
-// STATE VARIABLES 
+// VARIABLES 
 
 int lastKey = -1;          // which key was last pressed (0–8)
 int letterIndex = 0;       // which letter in that key we are cycling through
@@ -30,12 +30,12 @@ String output = "";        // final typed text shown on LCD
 
 unsigned long lastPressTime = 0; // time of last button press
 
-const int cycleDelay = 800; // ms wait before "locking in" a letter
+const int cycleDelay = 500; // ms wait before "locking in" a letter
 
 
 void setup() {
   lcd.begin(16, 2);        // initialize LCD size (16 columns, 2 rows)
-  lcd.print("Version 3");
+  lcd.print("Version 5");
 
   // SETUP ROWS (OUTPUTS)
   for (int r = 0; r < 3; r++) {
@@ -81,8 +81,7 @@ void commitLetter() {
     }
 
     // update LCD display
-    lcd.clear();
-    lcd.print(output);
+    printScreen(output);
   }
 
   // reset selection state
@@ -93,9 +92,6 @@ void commitLetter() {
 
 // MAIN LOOP: scan keypad constantly
 void loop() {
-
-  bool pressed = false;
-
   // scan each row one at a time
   for (int r = 0; r < 3; r++) {
 
@@ -108,8 +104,6 @@ void loop() {
       if (digitalRead(cols[c]) == LOW) {
         // button is pressed
 
-        pressed = true;
-
         int key = getKeyIndex(r, c); // convert to 0–8 key index
 
         // CASE 1: same key pressed again quickly
@@ -117,7 +111,6 @@ void loop() {
         if (key == lastKey && millis() - lastPressTime < cycleDelay) {
           letterIndex++;
         }
-
         // CASE 2: new key pressed
         // → commit previous letter first
         else {
@@ -125,7 +118,6 @@ void loop() {
           lastKey = key;    // store new key
           letterIndex = 0;  // start at first letter
         }
-
         // update timing
         lastPressTime = millis();
       }
@@ -138,5 +130,17 @@ void loop() {
   // → finalize the letter automatically
   if (lastKey != -1 && millis() - lastPressTime > cycleDelay) {
     commitLetter();
+  }
+}
+
+void printScreen(String text) {
+  lcd.clear();
+  if(text.length() <= 16) {
+    lcd.print(text);
+  }
+  else {
+    lcd.print(text.substring(0, 16));
+    lcd.setCursor(0, 1);
+    lcd.print(text.substring(16));
   }
 }
