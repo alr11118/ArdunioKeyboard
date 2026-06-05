@@ -7,9 +7,13 @@ const String rowsS[] = {"2", "0", "1"};
 const int cols[] = {5, 6, 7};
 const String colsS[] = {"2", "0", "1"};
 
+int buzzerPin = A3;
+
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("Version 4");
+  lcd.print("Version 7");
+
+  pinMode(buzzerPin, OUTPUT);
 
   for (int r = 0; r < 3; r++) {
     pinMode(rows[r], OUTPUT);
@@ -43,8 +47,8 @@ void loop() {
         lcd.print("Row: " + rowsS[r]);
         lcd.setCursor(0, 1);
         lcd.print("Colunm: " + colsS[c]);
-
-        delay(100); // slow down output
+        tone(buzzerPin, 350, 100);
+        //delay(100); // slow down output
       }
     }
 
