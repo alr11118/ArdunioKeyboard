@@ -7,12 +7,12 @@ const int rows[] = {3, 4, 2};
 const String rowsS[] = {"2", "0", "1"};
 const int cols[] = {6, 7, 5};
 const String colsS[] = {"2", "0", "1"};
+int buzzerPin = A3;
 
 // Letters
 String letters[9] = {"ABCD", "EFGH", "IJKL", "MNOP", "QRS", "TUV", "WXYZ", "_", ""};
 
 // Tracking Variables
-int keyIndexx = 0;
 int lastKey = -1; // -1 when the last key pressed was confirmed
 int keyIndex[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 bool wasPressed[] = {false, false, false, false, false, false, false, false, false}; // Tracking to not count the same key twice
@@ -22,7 +22,9 @@ String text = "";
 
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("Version 9");
+  lcd.print("Version 10");
+
+  pinMode(buzzerPin, OUTPUT);
 
   for (int r = 0; r < 3; r++) {
     pinMode(rows[r], OUTPUT);
@@ -63,8 +65,8 @@ void loop() {
           lcd.setCursor(0, 1);
           lcd.print("Colunm: " + colsS[c]);
           */
-
-          delay(100); // slow down output
+          tone(buzzerPin, 350, 100);
+          //delay(100); // slow down output
 
           if(lastKey == toKeyNum(r, c)) { //if same key pressed increase index
             keyIndex[toKeyNum(r, c)]++;
