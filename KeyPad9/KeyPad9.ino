@@ -3,23 +3,26 @@
 LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
 
 // Pins
-const int rows[] = {2, 3, 4};
+const int rows[] = {3, 4, 2};
 const String rowsS[] = {"2", "0", "1"};
-const int cols[] = {5, 6, 7};
+const int cols[] = {6, 7, 5};
 const String colsS[] = {"2", "0", "1"};
 
 // Letters
-String letters[9] = {"ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ", "_"};
+String letters[9] = {"ABCD", "EFGH", "IJKL", "MNOP", "QRS", "TUV", "WXYZ", "_", ""};
 
 // Tracking Variables
-int keyIndex = 0;
+int keyIndexx = 0;
 int lastKey = -1; // -1 when the last key pressed was confirmed
+int keyIndex[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 bool wasPressed[] = {false, false, false, false, false, false, false, false, false}; // Tracking to not count the same key twice
+
+String text = "";
 
 
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("Version 8");
+  lcd.print("Version 9");
 
   for (int r = 0; r < 3; r++) {
     pinMode(rows[r], OUTPUT);
@@ -46,27 +49,46 @@ void loop() {
         // Check if key was pressed before
         if(wasPressed[toKeyNum(r, c)] == false) {
           // Logging
+          /*
           Serial.print("Key pressed at row ");
           Serial.print(rowsS[r]);
           Serial.print(", column ");
           Serial.println(colsS[c]);
+          */
 
           // LCD Print
+          /*
           lcd.clear();
           lcd.print("Row: " + rowsS[r]);
           lcd.setCursor(0, 1);
           lcd.print("Colunm: " + colsS[c]);
+          */
 
           delay(100); // slow down output
 
           if(lastKey == toKeyNum(r, c)) { //if same key pressed increase index
-            keyIndex++;
+            keyIndex[toKeyNum(r, c)]++;
           }
           else { // if not set index to 0
-            keyIndex = 0;
+            keyIndex[toKeyNum(r, c)] = 0;
           }
-          Serial.print(getKey(toKeyNum(r, c)));
-          Serial.print("Key num: " + toKeyNum(r, c) + " Rows & Cols: " + r + c + "\n");
+          // Cehck if the last key is pressed then confirm letter and print
+          if(toKeyNum(r, c) == 8 && lastKey != -1) {
+            text += getKey(lastKey, keyIndex[lastKey]);
+            printScreen(text);
+          }
+          else {
+            printScreen(text + getKey(toKeyNum(r, c), keyIndex[toKeyNum(r, c)]));
+            //lcd.print(getKey(toKeyNum(r, c), keyIndex[toKeyNum(r, c)]));
+            Serial.print(getKey(toKeyNum(r, c), keyIndex[toKeyNum(r, c)]) + "\n");
+          }
+          // Many lines because of integers :(
+          Serial.print("Key num: ");
+          Serial.print(toKeyNum(r, c));
+          Serial.print(" Rows & Cols: ");
+          Serial.print(r);
+          Serial.print(c);
+          Serial.print("\n");
 
           lastKey = toKeyNum(r, c);
         }
@@ -87,6 +109,21 @@ int toKeyNum(int row, int col) {
   return (3*row) + col;
 }
 
-String getKey(int keyNum) {
-  return letters[keyNum].substring(keyIndex, keyIndex + 1) + "\n";
+// pass true index
+String getKey(int keyNum, int index) {
+  String letterGroup = letters[keyNum];
+  return letterGroup.substring(index % letterGroup.length(), index % letterGroup.length() + 1);
+}
+
+// For Pringting LCD
+void printScreen(String text) {
+  lcd.clear();
+  if(text.length() <= 16) {
+    lcd.print(text);
+  }
+  else {
+    lcd.print(text.substring(0, 16));
+    lcd.setCursor(0, 1);
+    lcd.print(text.substring(16));
+  }
 }
