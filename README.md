@@ -1,6 +1,6 @@
 # Custom Matrix Keyboard
 
-Imege demo will be added soon...
+Demo gif will be added soon...
 ![Demo GIF](images/demo.gif)
 
 This project was originally made for my AP Physics 1 class electronics project, it is a custom-built matrix keyboard designed and programmed from scratch using an Arduino Uno. This project explores how modern keyboards work internally by implementing custom hardware, matrix scanning, character selection logic, and a user interface using an LCD display.
@@ -17,9 +17,7 @@ Each key represents a group of letters similar to early mobile phone keypads. Re
 
 ### Finished Build
 
-Finished picture will be added soon...
-![Finished Keyboard](images/keyboard.jpg)
-
+<img src="Media/wired.png" alt="inished Keyboard" width="400">
 
 ## Features
 
@@ -63,7 +61,7 @@ Each key corresponds to a group of letters. Pressing the same key repeatedly cyc
 
 ### Wiring Diagram
 
-Will be added soon
+<img src="Media/circuitDiagram.png" alt="Citcuit Diagram" width="600">
 
 ## Software
 
@@ -99,17 +97,19 @@ The software continuously scans the keyboard matrix by activating one row at a t
 Will be added soon...
 
 ## Repository Structure
-Will be added soon...
-<!-- 
 ```text
-.
-├── src/
-│   └── keyboard.ino
-├── images/
-├── docs/
+ArduinoKeyboard/
+├── SourceCode/
+|   |── KeyPad9
+|       └── KeyPad9.ino          # Actual typing logic
+|   └── HardwareTesting
+|        └── HardwareTesting.ino # The code used for testing hardware conductivity
+├── Media/
+|   |── circuitDiagram.png
+|   └── wired.png
 └── README.md
+
 ```
--->
 ## License
 
 MIT License
