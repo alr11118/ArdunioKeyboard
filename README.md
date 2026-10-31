@@ -93,9 +93,6 @@ The software continuously scans the keyboard matrix by activating one row at a t
 * Predictive text input
 * Custom enclosure
 
-## More Media
-Will be added soon...
-
 ## Repository Structure
 ```text
 ArduinoKeyboard/
