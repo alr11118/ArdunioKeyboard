@@ -1,8 +1,5 @@
 # Custom Matrix Keyboard
 
-Demo gif will be added soon...
-![Demo GIF](images/demo.gif)
-
 This project was originally made for my AP Physics 1 class electronics project, it is a custom-built matrix keyboard designed and programmed from scratch using an Arduino Uno. This project explores how modern keyboards work internally by implementing custom hardware, matrix scanning, character selection logic, and a user interface using an LCD display.
 
 ## Overview
